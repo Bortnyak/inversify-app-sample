@@ -1,0 +1,1 @@
+# inversify-app-sample
