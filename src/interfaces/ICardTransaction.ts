@@ -1,4 +1,4 @@
-import { ICard } from "./ICard";
+import { ICreditCard } from "./ICreditCard";
 
 export enum transactionStatuses {
   pending = "PENDING",
@@ -9,7 +9,7 @@ export enum transactionStatuses {
 
 export interface ICardTransaction {
   id: bigint,
-  card: ICard,
+  card: ICreditCard,
   amount: bigint,
   status: transactionStatuses,
   createdAt: Date,

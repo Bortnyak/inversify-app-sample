@@ -1,11 +1,8 @@
 import { PrimaryGeneratedColumn, Entity, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
-import { IUser } from "../interfaces/IUser";
 
+import { IChild } from "../interfaces/IChild";
 
-@Entity({
-  name: "users"
-})
-export class User implements IUser {
+export class Child implements IChild {
   @PrimaryGeneratedColumn()
   id: bigint;
 
@@ -13,27 +10,13 @@ export class User implements IUser {
   name: string;
 
   @Column()
-  email: string;
-  
-  // @ManyToOne((type) => Role)
-  // @JoinColumn({
-  //   name: "id"
-  // })
-  // role: IRole;
+  age: number;
 
   @CreateDateColumn({
     name: "created_at",
     default: new Date(),
   })
   createdAt: Date;
-
-  // TODO: make relations between users --> users_children
-  @ManyToOne((type) => User)
-  @JoinColumn({
-    name: "id",
-    referencedColumnName: ""
-  })
-  children?: IUser[];
 
   @UpdateDateColumn({
     name: "updated_at",

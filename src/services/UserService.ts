@@ -15,7 +15,7 @@ export class UserService implements IUserService {
 
 
   async find(id: bigint): Promise<IUser> {
-    return await this.userRepo.find(id)
+    return await this.userRepo.find(id);
   }
   
 }
