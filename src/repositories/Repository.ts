@@ -1,12 +1,12 @@
 import { Repository, ObjectType } from "typeorm";
-import { DatabaseConnection } from "../utils/db/DBConnection";
+import { DatabaseConnection } from "../infrastructure/db/DBConnection";
 import { injectable } from "inversify";
 
 /**
  * An interface to be implement by any repository class
  */
 export interface IRepository<T> {
-  find(id: number | string): Promise<T>;
+  find(id: bigint): Promise<T>;
   findAll(): Promise<T[]>;
 }
 
