@@ -1,0 +1,26 @@
+{
+  "name": "inversify-app-sample",
+  "version": "1.0.0",
+  "description": "Example of the node project structure",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bortnyak/inversify-app-sample.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bortnyak/inversify-app-sample/issues"
+  },
+  "homepage": "https://github.com/Bortnyak/inversify-app-sample#readme",
+  "dependencies": {
+    "inversify": "^5.1.1",
+    "npmlog": "^5.0.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.37",
+    "typescript": "^4.4.3"
+  }
+}
