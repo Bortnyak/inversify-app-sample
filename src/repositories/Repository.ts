@@ -6,7 +6,6 @@ import { injectable } from "inversify";
  * An interface to be implement by any repository class
  */
 export interface IRepository<T> {
-  find(id: bigint): Promise<T>;
   findAll(): Promise<T[]>;
 }
 

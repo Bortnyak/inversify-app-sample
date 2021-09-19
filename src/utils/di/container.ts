@@ -19,3 +19,5 @@ container.bind<IUserService>(TYPES.IUserService).to(UserService);
 container.bind<IUserRepository>(TYPES.IUserRepository).to(UserRepository);
 
 
+
+export default container;

@@ -2,6 +2,9 @@ import { PrimaryGeneratedColumn, Entity, Column, ManyToOne, JoinColumn, CreateDa
 
 import { IChild } from "../interfaces/IChild";
 
+@Entity({
+  name: "children"
+})
 export class Child implements IChild {
   @PrimaryGeneratedColumn()
   id: bigint;

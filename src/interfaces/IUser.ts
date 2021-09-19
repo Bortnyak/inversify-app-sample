@@ -6,5 +6,4 @@ export interface IUser {
   createdAt: Date,
   children?: IUser[],
   updatedAt?: Date,
-  deletedAt?: Date,
 }

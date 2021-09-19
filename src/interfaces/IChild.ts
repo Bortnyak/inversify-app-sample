@@ -5,5 +5,4 @@ export interface IChild {
   age: number,
   createdAt: Date,
   updatedAt?: Date,
-  deletedAt?: Date,
 }

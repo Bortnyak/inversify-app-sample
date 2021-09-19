@@ -14,12 +14,6 @@ export class User implements IUser {
 
   @Column()
   email: string;
-  
-  // @ManyToOne((type) => Role)
-  // @JoinColumn({
-  //   name: "id"
-  // })
-  // role: IRole;
 
   @CreateDateColumn({
     name: "created_at",
