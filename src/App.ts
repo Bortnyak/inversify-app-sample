@@ -14,6 +14,9 @@ import { HttpExceptionHelper, HttpException } from "./utils/HTTPExceptionHelper"
 // import "./controller/UserController";
 
 
+import "./controllers/index";
+
+
 let server = new InversifyExpressServer(
   container,
   null,
@@ -21,6 +24,9 @@ let server = new InversifyExpressServer(
   null,
   null
 );
+
+
+console.log("config.apiRootPath: ", config.apiRootPath);
 
 server.setErrorConfig((app) => {
   app.use((

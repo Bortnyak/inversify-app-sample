@@ -1,17 +1,26 @@
 import { PrimaryGeneratedColumn, Entity, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
+import { ICreditCard } from "../interfaces/ICreditCard";
 
-import { IChild } from "../interfaces/IChild";
 
-@Entity({ name: "children" })
-export class Child implements IChild {
+@Entity({ name: "credit_cards" })
+export class CreditCard implements ICreditCard {
   @PrimaryGeneratedColumn()
   id: bigint;
 
   @Column()
-  name: string;
+  type: string;
 
-  @Column()
-  age: number;
+  @Column({ name: "card_number"})
+  cardNumber: number;
+
+  @Column({ name: "security_code"})
+  securityCode: number;
+
+  @Column({ name: "exp_date" })
+  exp: Date;
+
+  @Column({ name: "month_limit" })
+  monthLimit: number;
 
   @CreateDateColumn({
     name: "created_at",
@@ -26,5 +35,5 @@ export class Child implements IChild {
     select: false,
   })
   updatedAt?: Date;
-
+  
 }

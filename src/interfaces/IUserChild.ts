@@ -5,4 +5,5 @@ export interface IUserChild {
   id: bigint,
   user: IUser,
   child: IChild,
+  createdAt: Date,
 }

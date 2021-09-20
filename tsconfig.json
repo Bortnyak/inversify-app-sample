@@ -3,7 +3,7 @@
   "compilerOptions": {
     "target": "es2019",
     "module": "commonjs",
-    "types": ["reflect-metadata", "mocha", "swagger-express-ts"],
+    "types": ["reflect-metadata", "swagger-express-ts"],
     "outDir": "./dist",
     "sourceMap": true,
     "experimentalDecorators": true,

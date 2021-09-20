@@ -7,6 +7,16 @@ import { RepositoryDAO } from "./Repository";
 
 
 export class UserRepository extends RepositoryDAO<IUser> implements IUserRepository {
+
+  @CatchError("Failed to find user by email with password")
+  async findByEmailWithPassword(email: string): Promise<IUser> {
+    const repo = await this._getRepository(User);
+    return repo.createQueryBuilder("user")
+      .where("user.email = :email", { email })
+      .addSelect("user.password")
+      .getOne();
+  }
+
   @CatchError("Failed to create new user")
   async create(userPayload: ICreateUser): Promise<IUser> {
     const repo = await this._getRepository(User);
@@ -22,8 +32,9 @@ export class UserRepository extends RepositoryDAO<IUser> implements IUserReposit
     const repo = await this._getRepository(User);
     return repo.createQueryBuilder("user")
       .where("user.email = :email", { email })
-      .getOne()
+      .getOne();
   }
+
 
   findAll(): Promise<IUser[]> {
     throw new Error("Method not implemented.");
@@ -34,6 +45,8 @@ export class UserRepository extends RepositoryDAO<IUser> implements IUserReposit
     const repo = await this._getRepository(User);
     return repo.createQueryBuilder("user")
       .where("user.id = :id", { id })
+      .innerJoinAndSelect("user.children", "children")
+      .innerJoinAndSelect("children.child", "child")
       .getOne()
   }
 

@@ -8,4 +8,5 @@ export interface IUserRepository extends IRepository<IUser> {
   findById(id: bigint): Promise<IUser>;
   findByEmail(email: string): Promise<IUser>;
   create(userPayload: ICreateUser): Promise<IUser>;
+  findByEmailWithPassword(email: string): Promise<IUser>;
 }

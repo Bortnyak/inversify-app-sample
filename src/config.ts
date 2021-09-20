@@ -21,5 +21,5 @@ export default {
     credentials: true
   },
   nodePort: process.env.NODE_PORT || 3000,
-  apiRootPath: process.env.API_ROOT_PATH || "/observe-api/",
+  apiRootPath: process.env.API_ROOT_PATH || "/api/",
 };
