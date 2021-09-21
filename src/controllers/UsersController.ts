@@ -15,21 +15,7 @@ export class UserController extends BaseHttpController {
   ) {
     super();
   }
-
-
-  @httpPost("/", /*TYPES.IAuthMiddleware*/)
-  public async createUser(@requestBody() payload: ICreateUser, @response() res: Response) {
-    let userCreated: IGetUserMapper;
-    try {
-      userCreated = await this.userService.register(payload);
-    } catch (e) {
-      console.log(e);
-      return res.status(500).json({ success: false, error: e.message })
-    }
-
-    return res.status(201).json({ success: true, user: userCreated });
-  }
-
+  
 
   @httpGet("/profile", TYPES.IAuthMiddleware)
   public async getProfile(@response() res: Response) {

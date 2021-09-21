@@ -41,4 +41,14 @@ export class UserChildRepository extends RepositoryDAO<IUserChild> implements IU
       .andWhere("userChild.child = :childId", { childId })
       .getOne()
   }
+
+  @CatchError("Failed to find children by parent")
+  async findRelationsByParent(parentId: number): Promise<IUserChild[]> {
+    const repo = await this._getRepository(UserChild);
+    return repo.createQueryBuilder("userChild")
+      .innerJoinAndSelect("userChild.child", "child")
+      .addSelect("child.name, child.age")
+      .where("userChild.user = :parentId", { parentId })
+      .getMany();
+  }
 }

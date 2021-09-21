@@ -3,9 +3,12 @@ import { IChild } from "../interfaces/IChild";
 import { IChildRepository } from "../interfaces/IChildRepository";
 import { IChildService } from "../interfaces/IChildService";
 import { ICreateChild } from "../interfaces/ICreateChild";
+import { IGetChild } from "../interfaces/IGetChild";
 import { IUpdateChild } from "../interfaces/IUpdateChild";
 import { IUser } from "../interfaces/IUser";
+import { IUserChild } from "../interfaces/IUserChild";
 import { IUserChildService } from "../interfaces/IUserChildService";
+import { dumpUsersChildren } from "../mappers/UserChildrenMapper";
 import TYPES from "../utils/di/identifiers";
 import { HttpException } from "../utils/HTTPExceptionHelper";
 import { ILoggerService } from "./LoggerService";
@@ -26,8 +29,11 @@ export class ChildService implements IChildService {
   }
 
 
-  async findAllByParentId(userId: number): Promise<IChild[]> {
-    throw new Error("Method not implemented.");
+  async findAllByParentId(userId: number): Promise<IGetChild[]> {
+    console.log("here is findAllByParentId called out: ");
+    const usersChildren: IUserChild[] = await this.userChildService.findRelationsByParent(userId);
+    
+    return usersChildren.map(uChild => dumpUsersChildren(uChild));
   }
 
 

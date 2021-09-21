@@ -14,7 +14,6 @@ export class UserChildService implements IUserChildService {
     @inject(TYPES.ILoggerService) private loggerService: ILoggerService,
   ) { this.loggerService.setContext(this) }
 
-
   async createRelation(user: IUser, child: IChild): Promise<IUserChild> {
     return await this.userChildRepo.createRelation(user, child);
   }
@@ -27,5 +26,10 @@ export class UserChildService implements IUserChildService {
     return await this.userChildRepo.findRelationByIds(userId, childId);
   }
   
+  
+  async findRelationsByParent(parentId: number): Promise<IUserChild[]> {
+    return await this.userChildRepo.findRelationsByParent(parentId);
+  }
+
 }
 
