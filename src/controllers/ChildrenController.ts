@@ -42,9 +42,14 @@ export class ChildrenController extends BaseHttpController {
 
 
   @httpDelete("/:id", TYPES.IAuthMiddleware)
-  public async deleteChild(@response() res: Response) {
+  public async deleteChild(
+    @requestParam("id") id: number,
+    @response() res: Response,
+    ) {
     const user = this.httpContext.user.details as IUser;
-    return res.status(201).json({ success: true });
+    await this.childService.delete(user.id, id);
+    return res.status(200).json({ success: true });
   }
+
 
 }

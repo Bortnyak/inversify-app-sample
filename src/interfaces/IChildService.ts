@@ -9,7 +9,7 @@ export interface IChildService {
   findAllByParentId(userId: number): Promise<IChild[]>;
   create(user: IUser, childPayload: ICreateChild): Promise<IChild>;
   update(userId: number, childId: number, childPayload: IUpdateChild): Promise<void>
-  delete(id: number): Promise<void>;
+  delete(userId: number, childId: number,): Promise<void>
   addCard(cardId: number, childId: number): Promise<void>;
   // chargeCard()
 }

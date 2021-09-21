@@ -1,4 +1,4 @@
-import { UpdateResult } from "typeorm";
+import { DeleteResult, UpdateResult } from "typeorm";
 import { IRepository } from "../repositories/Repository";
 import { IChild } from "./IChild";
 import { ICreateChild } from "./ICreateChild";
@@ -10,4 +10,5 @@ export interface IChildRepository extends IRepository<IChildRepository> {
   create(childPayload: ICreateChild): Promise<IChild>;
   findByName(name: string): Promise<IChild>;
   update(id: number, childPayload: IUpdateChild): Promise<UpdateResult>;
+  delete(id: number): Promise<DeleteResult>;
 }

@@ -1,4 +1,4 @@
-import { UpdateResult } from "typeorm";
+import { DeleteResult, UpdateResult } from "typeorm";
 import { IChild } from "../interfaces/IChild";
 import { IChildRepository } from "../interfaces/IChildRepository";
 import { ICreateChild } from "../interfaces/ICreateChild";
@@ -8,6 +8,7 @@ import { RepositoryDAO } from "./Repository";
 
 
 export class ChildRepository extends RepositoryDAO<IChild> implements IChildRepository {
+ 
   async findByName(name: string): Promise<IChild> {
     const repo = await this._getRepository(Child);
     return repo.createQueryBuilder("child")
@@ -15,9 +16,11 @@ export class ChildRepository extends RepositoryDAO<IChild> implements IChildRepo
       .getOne();
   }
 
+
   findById(id: number): Promise<IChild> {
     throw new Error("Method not implemented.");
   }
+
 
   async create(childPayload: ICreateChild): Promise<IChild> {
     const repo = await this._getRepository(Child);
@@ -29,9 +32,8 @@ export class ChildRepository extends RepositoryDAO<IChild> implements IChildRepo
     throw new Error("Method not implemented.");
   }
 
+
   async update(id: number, childPayload: IUpdateChild): Promise<UpdateResult> {
-    console.log("childPayload: ", childPayload);
-    console.log("id: ", id);
     const repo = await this._getRepository(Child);
     return repo.createQueryBuilder("child")
       .update(Child)
@@ -40,4 +42,13 @@ export class ChildRepository extends RepositoryDAO<IChild> implements IChildRepo
       .execute();
   }
   
+
+  async delete(id: number): Promise<DeleteResult> {
+    const repo = await this._getRepository(Child);
+    return repo.createQueryBuilder()
+    .delete()
+    .from(Child)
+    .where("id = :id", { id })
+    .execute();
+  }
 }

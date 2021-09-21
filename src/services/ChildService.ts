@@ -52,14 +52,21 @@ export class ChildService implements IChildService {
       this.loggerService.logError(errorMessage);
       throw new HttpException(403, errorMessage);
     }
-    
+
     await this.childRepo.update(childId, childPayload);
     return;
   }
 
 
-  delete(id: number): Promise<void> {
-    throw new Error("Method not implemented.");
+  async delete(userId: number, childId: number,): Promise<void> {
+    const userChildRelation = await this.userChildService.findRelationByIds(userId, childId);
+    if (!userChildRelation) {
+      const errorMessage = "Current user doesn't relate to the child";
+      this.loggerService.logError(errorMessage);
+      throw new HttpException(403, errorMessage);
+    }
+
+    await this.childRepo.delete(childId);
   }
 
 
