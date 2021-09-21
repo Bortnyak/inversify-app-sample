@@ -48,7 +48,7 @@ export class UserService implements IUserService {
   }
 
 
-  async find(id: bigint): Promise<IUser> {
+  async find(id: number): Promise<IUser> {
     return await this.userRepo.findById(id);
   }
 
@@ -64,7 +64,7 @@ export class UserService implements IUserService {
     if (userExists) {
       const errorMessage = "User already exists";
       this.loggerService.logError(errorMessage);
-      throw new HttpException(403, errorMessage);
+      throw new HttpException(409, errorMessage);
     }
     payload.password = await this.hashPassword(payload.password);
     console.log("payload: ", payload);

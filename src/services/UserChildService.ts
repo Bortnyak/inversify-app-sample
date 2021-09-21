@@ -22,6 +22,10 @@ export class UserChildService implements IUserChildService {
   async findRelation(user: IUser, child: IChild): Promise<IUserChild> {
     return await this.userChildRepo.findRelation(user, child);
   }
+
+  async findRelationByIds(userId: number, childId: number): Promise<IUserChild> {
+    return await this.userChildRepo.findRelationByIds(userId, childId);
+  }
   
 }
 

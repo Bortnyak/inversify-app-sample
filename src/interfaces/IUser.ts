@@ -1,7 +1,7 @@
 import { IUserChild } from "./IUserChild";
 
 export interface IUser {
-  id: bigint,
+  id: number,
   name: string, 
   email: string,
   password: string,

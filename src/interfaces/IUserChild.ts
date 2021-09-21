@@ -2,7 +2,7 @@ import { IChild } from "./IChild";
 import { IUser } from "./IUser";
 
 export interface IUserChild {
-  id: bigint,
+  id: number,
   user: IUser,
   child: IChild,
   createdAt: Date,

@@ -1,5 +1,5 @@
 export interface IGetUserMapper {
-  id: bigint,
+  id: number,
   name: string,
   email: string,
 }

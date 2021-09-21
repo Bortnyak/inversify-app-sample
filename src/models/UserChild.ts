@@ -1,4 +1,4 @@
-import { PrimaryGeneratedColumn, Entity, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
+import { PrimaryColumn, Entity, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
 
 import { IChild } from "../interfaces/IChild";
 import { IUser } from "../interfaces/IUser";
@@ -9,8 +9,8 @@ import { User } from "./User";
 
 @Entity({ name: "users_children" })
 export class UserChild implements IUserChild {
-  @PrimaryGeneratedColumn()
-  id: bigint;
+  @PrimaryColumn()
+  id: number;
 
   @ManyToOne((type) => User, (user) => user.children)
   @JoinColumn({ name: "user_id" })

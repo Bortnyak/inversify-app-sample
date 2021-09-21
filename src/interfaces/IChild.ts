@@ -1,6 +1,6 @@
 
 export interface IChild {
-  id: bigint,
+  id: number,
   name: string,
   age: number,
   createdAt: Date,

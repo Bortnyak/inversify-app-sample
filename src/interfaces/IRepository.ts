@@ -1,4 +1,4 @@
 export interface IRepository<T> {
-  find(id: bigint | string): Promise<T>;
+  find(id: number | string): Promise<T>;
   findAll(): Promise<T[]>;
 }

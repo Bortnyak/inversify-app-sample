@@ -25,7 +25,7 @@ export class UserChildRepository extends RepositoryDAO<IUserChild> implements IU
   }
 
   
-  find(id: string | bigint): Promise<IUserChild> {
+  find(id: string | number): Promise<IUserChild> {
     throw new Error("Method not implemented.");
   }
   
@@ -34,4 +34,11 @@ export class UserChildRepository extends RepositoryDAO<IUserChild> implements IU
     throw new Error("Method not implemented.");
   }
   
+  async findRelationByIds(userId: number, childId: number): Promise<IUserChild> {
+    const repo = await this._getRepository(UserChild);
+    return repo.createQueryBuilder("userChild")
+      .where("userChild.user = :userId", { userId })
+      .andWhere("userChild.child = :childId", { childId })
+      .getOne()
+  }
 }

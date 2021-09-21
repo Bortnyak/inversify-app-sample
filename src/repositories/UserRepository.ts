@@ -41,7 +41,7 @@ export class UserRepository extends RepositoryDAO<IUser> implements IUserReposit
   }
 
   @CatchError("Failed to find user by id")
-  async findById(id: bigint): Promise<IUser> {
+  async findById(id: number): Promise<IUser> {
     const repo = await this._getRepository(User);
     return repo.createQueryBuilder("user")
       .where("user.id = :id", { id })

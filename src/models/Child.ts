@@ -1,11 +1,11 @@
-import { PrimaryGeneratedColumn, Entity, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
+import { Entity, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn, PrimaryColumn } from "typeorm";
 
 import { IChild } from "../interfaces/IChild";
 
 @Entity({ name: "children" })
 export class Child implements IChild {
-  @PrimaryGeneratedColumn()
-  id: bigint;
+  @PrimaryColumn()
+  id: number;
 
   @Column()
   name: string;

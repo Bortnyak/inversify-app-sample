@@ -3,6 +3,7 @@ import { IChild } from "../interfaces/IChild";
 import { IChildRepository } from "../interfaces/IChildRepository";
 import { IChildService } from "../interfaces/IChildService";
 import { ICreateChild } from "../interfaces/ICreateChild";
+import { IUpdateChild } from "../interfaces/IUpdateChild";
 import { IUser } from "../interfaces/IUser";
 import { IUserChildService } from "../interfaces/IUserChildService";
 import TYPES from "../utils/di/identifiers";
@@ -20,12 +21,12 @@ export class ChildService implements IChildService {
   ) { this.loggerService.setContext(this)}
 
 
-  find(id: bigint): Promise<IChild> {
+  find(id: number): Promise<IChild> {
     throw new Error("Method not implemented.");
   }
 
 
-  async findAllByParentId(userId: bigint): Promise<IChild[]> {
+  async findAllByParentId(userId: number): Promise<IChild[]> {
     throw new Error("Method not implemented.");
   }
 
@@ -37,33 +38,32 @@ export class ChildService implements IChildService {
       this.loggerService.logError(errorMessage);
       throw new HttpException(409, errorMessage);
     }
-    console.log("childExists: ", childExists);
     const childCreated = await this.childRepo.create(childPayload);
-
-    // const isRelationExists = await this.userChildService.findRelation(user, childCreated);
-    // if (isRelationExists) {
-    //   const errorMessage = "Child already exists";
-    //   this.loggerService.logError(errorMessage);
-    //   throw new HttpException(403, errorMessage);
-    // }
-
     await this.userChildService.createRelation(user, childCreated);
 
     return childCreated;
   }
 
 
-  update(id: bigint, childPayload: ICreateChild): Promise<IChild> {
+  async update(userId: number, childId: number, childPayload: IUpdateChild): Promise<void> {
+    const userChildRelation = await this.userChildService.findRelationByIds(userId, childId);
+    if (!userChildRelation) {
+      const errorMessage = "Current user doesn't relate to the child";
+      this.loggerService.logError(errorMessage);
+      throw new HttpException(403, errorMessage);
+    }
+    
+    await this.childRepo.update(childId, childPayload);
+    return;
+  }
+
+
+  delete(id: number): Promise<void> {
     throw new Error("Method not implemented.");
   }
 
 
-  delete(id: bigint): Promise<void> {
-    throw new Error("Method not implemented.");
-  }
-
-
-  addCard(cardId: bigint, childId: bigint): Promise<void> {
+  addCard(cardId: number, childId: number): Promise<void> {
     throw new Error("Method not implemented.");
   }
 

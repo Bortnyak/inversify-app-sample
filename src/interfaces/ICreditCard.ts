@@ -1,5 +1,5 @@
 export interface ICreditCard {
-  id: bigint,
+  id: number,
   type: string,
   cardNumber: number, 
   securityCode: number,

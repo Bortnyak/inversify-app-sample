@@ -10,7 +10,7 @@ export enum transactionStatuses {
 export interface ICardTransaction {
   id: number,
   card: ICreditCard,
-  amount: bigint,
+  amount: number,
   status: transactionStatuses,
   createdAt: Date,
   updatedAt?: Date,
