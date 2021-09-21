@@ -1,7 +1,6 @@
 import { IUser } from "./IUser";
 
-export interface ICreditCard {
-  id: number,
+export interface ICreditCardToSave {
   type: string,
   cardNumber: number, 
   securityCode: number,
@@ -9,6 +8,4 @@ export interface ICreditCard {
   expMonth: number,
   monthLimit: number,
   owner: IUser,
-  createdAt?: Date,
-  updatedAt?: Date,
 }

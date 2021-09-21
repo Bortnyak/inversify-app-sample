@@ -10,9 +10,6 @@ import * as logger from "npmlog";
 // import * as morgan from "morgan";
 import { HttpExceptionHelper, HttpException } from "./utils/HTTPExceptionHelper";
 
-// import "./controller/CheckHealth";
-// import "./controller/UserController";
-
 
 import "./controllers/index";
 
@@ -46,13 +43,10 @@ server.setConfig((app) => {
   app.use(urlencoded({ extended: true }));
   app.use(json({ limit: "50mb" }));
 
-  // create swagger template
-  app.use(`${config.apiRootPath}swagger/`, express.static("swagger"));
-  app.use(
-    "/swagger/assets",
-    express.static("node_modules/swagger-ui-dist")
-  );
 
+  // create swagger template
+  app.use('/api-docs/swagger', express.static( 'swagger' ));
+  app.use('/api-docs/swagger/assets', express.static('node_modules/swagger-ui-dist'));
 
 
   //cors
@@ -61,8 +55,9 @@ server.setConfig((app) => {
   app.use(
     swagger.express({
       definition: {
+        basePath: config.apiRootPath,
         info: {
-          title: "Observe API",
+          title: "Wallet API",
           version: "1.0"
         },
         externalDocs: {

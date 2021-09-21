@@ -48,6 +48,7 @@ export class UserChildRepository extends RepositoryDAO<IUserChild> implements IU
     return repo.createQueryBuilder("userChild")
       .innerJoinAndSelect("userChild.child", "child")
       .addSelect("child.name, child.age")
+      .leftJoinAndSelect("child.creditCard", "creditCard")
       .where("userChild.user = :parentId", { parentId })
       .getMany();
   }

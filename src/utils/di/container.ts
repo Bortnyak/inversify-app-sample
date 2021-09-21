@@ -1,6 +1,7 @@
 import { Container } from "inversify";
 import TYPES from "./identifiers";
 
+import { CatchValidationError } from "../../middlewares/CatchValidationError";
 import { ILoggerService, LoggerService } from "../../services/LoggerService";
 import { IAuthMiddleware, AuthMiddleware } from "../../middlewares/AuthMiddleware";
 
@@ -22,7 +23,16 @@ import { UserChildRepository } from "../../repositories/UserChildRepository";
 import { IUserChildService } from "../../interfaces/IUserChildService";
 import { UserChildService } from "../../services/UserChildService";
 
+import { ICreditCardRepository } from "../../interfaces/ICreditCardRepository";
+import { CreditCardRepository } from "../../repositories/CreditCardRepository";
+import { ICreditCardService } from "../../interfaces/ICreditCardService";
+import { CreditCardService } from "../../services/CreditCardService";
+
+
 const container = new Container();
+
+container.bind<CatchValidationError>(TYPES.CatchValidationError).to(CatchValidationError);
+
 
 container.bind<ILoggerService>(TYPES.ILoggerService).to(LoggerService);
 
@@ -41,6 +51,10 @@ container.bind<IChildService>(TYPES.IChildService).to(ChildService);
 // USER_CHILD
 container.bind<IUserChildRepository>(TYPES.IUserChildRepository).to(UserChildRepository);
 container.bind<IUserChildService>(TYPES.IUserChildService).to(UserChildService);
+
+// CREDIT_CARD
+container.bind<ICreditCardRepository>(TYPES.ICreditCardRepository).to(CreditCardRepository);
+container.bind<ICreditCardService>(TYPES.ICreditCardService).to(CreditCardService);
 
 
 export default container;

@@ -1,5 +1,6 @@
 const TYPES = {
   ILoggerService: Symbol("ILoggerService"),
+  CatchValidationError: Symbol("CatchValidationError"),
   IUserService: Symbol("IUserService"),
   IUserRepository: Symbol("IUserRepository"),
   IAuthService: Symbol("IAuthService"),
@@ -8,6 +9,8 @@ const TYPES = {
   IChildService: Symbol("IChildService"),
   IUserChildRepository: Symbol("IUserChildRepository"),
   IUserChildService: Symbol("IUserChildService"),
+  ICreditCardRepository: Symbol("ICreditCardRepository"),
+  ICreditCardService: Symbol("ICreditCardService"),
 };
 
 export default TYPES;

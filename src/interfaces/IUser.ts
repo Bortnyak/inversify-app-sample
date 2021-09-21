@@ -1,3 +1,4 @@
+import { ICreditCard } from "./ICreditCard";
 import { IUserChild } from "./IUserChild";
 
 export interface IUser {
@@ -7,5 +8,6 @@ export interface IUser {
   password: string,
   createdAt: Date,
   children: IUserChild[],
+  creditCards: ICreditCard[];
   updatedAt?: Date,
 }

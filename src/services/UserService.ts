@@ -60,14 +60,12 @@ export class UserService implements IUserService {
 
   async register(payload: ICreateUser): Promise<IGetUserMapper> {
     const userExists = await this.findByEmail(payload.email);
-    console.log("userExists: ", userExists);
     if (userExists) {
       const errorMessage = "User already exists";
       this.loggerService.logError(errorMessage);
       throw new HttpException(409, errorMessage);
     }
     payload.password = await this.hashPassword(payload.password);
-    console.log("payload: ", payload);
 
     const userCreated = await this.userRepo.create(payload);
     return dumpUser(userCreated);

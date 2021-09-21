@@ -1,7 +1,8 @@
 export interface ICreateCreditCard {
   type: string,
-  cardNumber: number, 
+  cardNumber: number,
   securityCode: number,
-  exp: Date,
+  expMonth: number,
+  expYear: number,
   monthLimit: number,
 }

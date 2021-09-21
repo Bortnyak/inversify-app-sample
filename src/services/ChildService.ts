@@ -30,9 +30,7 @@ export class ChildService implements IChildService {
 
 
   async findAllByParentId(userId: number): Promise<IGetChild[]> {
-    console.log("here is findAllByParentId called out: ");
     const usersChildren: IUserChild[] = await this.userChildService.findRelationsByParent(userId);
-    
     return usersChildren.map(uChild => dumpUsersChildren(uChild));
   }
 
