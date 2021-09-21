@@ -1,10 +1,10 @@
-import { PrimaryColumn, Entity, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
+import { PrimaryGeneratedColumn, Entity, Column, ManyToOne, JoinColumn, CreateDateColumn, UpdateDateColumn, DeleteDateColumn } from "typeorm";
 import { ICreditCard } from "../interfaces/ICreditCard";
 
 
 @Entity({ name: "credit_cards" })
 export class CreditCard implements ICreditCard {
-  @PrimaryColumn()
+  @PrimaryGeneratedColumn()
   id: number;
 
   @Column()
