@@ -8,7 +8,6 @@ import { CreateCreditCardPayload } from "../dto/CreateCreditCardPayload";
 import { IUpdateCreditCard } from "../interfaces/IUpdateCreditCard";
 import {
   ApiPath,
-  ApiOperationGet,
   SwaggerDefinitionConstant,
   ApiOperationPost,
   ApiOperationPatch,
@@ -17,6 +16,10 @@ import {
 import { IUser } from "../interfaces/IUser";
 import { UpdateCreditCardPayload } from "../dto/UpdateCreditCardPayload";
 import { ICreatePayment } from "../interfaces/ICreatePayment";
+
+import { PaymentPayload } from "../dto/PaymentPayload";
+
+export { PaymentPayload, CreateCreditCardPayload, UpdateCreditCardPayload }
 
 
 @ApiPath({
@@ -141,8 +144,32 @@ export class CardsController extends BaseHttpController {
     return res.status(200).json({ success: true });
   }
 
-  
-  @httpPost("/:id/payment", TYPES.IAuthMiddleware)
+
+  @ApiOperationPost({
+    summary: "Charge the card",
+    description: "Charge the card",
+    path: "/{:id}/payment",
+    parameters: {
+      body: {
+        type: SwaggerDefinitionConstant.Parameter.Type.OBJECT,
+        model: "PaymentPayload",
+        required: true,
+        allowEmptyValue: false,
+        description: "PaymentPayload object"
+      },
+    },
+    responses: {
+      200: { 
+        description: "Success",
+        type: SwaggerDefinitionConstant.OBJECT,
+      },
+      400: { description: "Parameters fail" },
+      401: { description: "Unathorized" },
+      402: { description: "Month limit exceeded" },
+      500: { description: "Internal server error" }
+    }
+  })
+  @httpPost("/:id/payment", TYPES.IAuthMiddleware, ...PaymentPayload.validate(), TYPES.CatchValidationError)
   public async chargeOwnCard(
     @requestParam("id") id: number,
     @requestBody() paymentPayload: ICreatePayment,

@@ -10,12 +10,17 @@ import { IUser } from "../interfaces/IUser";
 import TYPES from "../utils/di/identifiers";
 import { HttpException } from "../utils/HTTPExceptionHelper";
 import { ILoggerService } from "../infrastructure/Logger/LoggerService";
+import { IPaymentTransactionService } from "../interfaces/IPaymentTransactionService";
+import { IPaymentTransaction } from "../interfaces/IPaymentTransaction";
+import { ICreatePaymentTransaction } from "../interfaces/ICreatePaymentTransaction";
+import { TransactionStatus } from "../interfaces/IPaymentTransaction";
 
 
 @injectable()
 export class CreditCardService implements ICreditCardService {
   constructor(
     @inject(TYPES.ILoggerService) private loggerService: ILoggerService,
+    @inject(TYPES.IPaymentTransactionService) private paymentTransactionService: IPaymentTransactionService,
     @inject(TYPES.ICreditCardRepository) private creditCardRepo: ICreditCardRepository,
   ) { this.loggerService.setContext(this) }
 
@@ -66,20 +71,33 @@ export class CreditCardService implements ICreditCardService {
       throw new HttpException(404, errorMessage);
     }
 
-    await this.withdraw(card, amount);
-    return;
-  }
+    const transactionStatus: TransactionStatus = await this.withdraw(card, amount);
+    const transactionInfo: ICreatePaymentTransaction = {
+      card,
+      amount,
+      status: transactionStatus,
+    };
 
-
-  private async withdraw(card: ICreditCard, amount: number): Promise<void> {
-    const cardMonthLimit = Number(card.monthLimit);
-    if (amount > cardMonthLimit) {
+    await this.paymentTransactionService.commit(transactionInfo);
+    if (transactionStatus === TransactionStatus.failure) {
       const errorMessage = "Month limit exceeded";
       this.loggerService.logError(errorMessage);
       throw new HttpException(402, errorMessage);
     }
-    const newMonthLimit = cardMonthLimit - amount;
 
+    return;
+  }
+
+
+  private async withdraw(card: ICreditCard, amount: number): Promise<TransactionStatus> {
+    const cardMonthLimit = Number(card.monthLimit);
+
+    if (amount > cardMonthLimit) {
+      return TransactionStatus.failure; 
+    }
+
+    const newMonthLimit = cardMonthLimit - amount;
     await this.creditCardRepo.updateMonthLimit(card.id, newMonthLimit);
+    return TransactionStatus.success;
   }
 }

@@ -1,18 +1,16 @@
 import { ICreditCard } from "./ICreditCard";
 
-export enum transactionStatuses {
+export enum TransactionStatus {
   pending = "PENDING",
   success = "SUCCESS",
   failure = "FAILURE",
 };
 
 
-export interface ICardTransaction {
+export interface IPaymentTransaction {
   id: number,
   card: ICreditCard,
   amount: number,
-  status: transactionStatuses,
+  status: TransactionStatus,
   createdAt: Date,
-  updatedAt?: Date,
-  deletedAt?: Date,
 }

@@ -11,6 +11,8 @@ const TYPES = {
   IUserChildService: Symbol("IUserChildService"),
   ICreditCardRepository: Symbol("ICreditCardRepository"),
   ICreditCardService: Symbol("ICreditCardService"),
+  IPaymentTransactionRepository: Symbol("IPaymentTransactionRepository"),
+  IPaymentTransactionService: Symbol("IPaymentTransactionService"),
 };
 
 export default TYPES;

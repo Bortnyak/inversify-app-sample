@@ -28,12 +28,14 @@ import { CreditCardRepository } from "../../repositories/CreditCardRepository";
 import { ICreditCardService } from "../../interfaces/ICreditCardService";
 import { CreditCardService } from "../../services/CreditCardService";
 
+import { IPaymentTransactionRepository } from "../../interfaces/IPaymentTransactionRepository";
+import { PaymentTransactionRepository } from "../../repositories/PaymentTransactionRepository";
+import { IPaymentTransactionService } from "../../interfaces/IPaymentTransactionService";
+import { PaymentTransactionService } from "../../services/PaymentTransactionService";
 
 const container = new Container();
 
 container.bind<CatchValidationError>(TYPES.CatchValidationError).to(CatchValidationError);
-
-
 container.bind<ILoggerService>(TYPES.ILoggerService).to(LoggerService);
 
 // AUTH
@@ -55,6 +57,10 @@ container.bind<IUserChildService>(TYPES.IUserChildService).to(UserChildService);
 // CREDIT_CARD
 container.bind<ICreditCardRepository>(TYPES.ICreditCardRepository).to(CreditCardRepository);
 container.bind<ICreditCardService>(TYPES.ICreditCardService).to(CreditCardService);
+
+// PAYMENT_TRANSACTION
+container.bind<IPaymentTransactionRepository>(TYPES.IPaymentTransactionRepository).to(PaymentTransactionRepository);
+container.bind<IPaymentTransactionService>(TYPES.IPaymentTransactionService).to(PaymentTransactionService);
 
 
 export default container;
