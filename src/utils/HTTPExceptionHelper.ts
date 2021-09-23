@@ -1,4 +1,4 @@
-import { LoggerService} from "../services/LoggerService";
+import { LoggerService} from "../infrastructure/Logger/LoggerService";
 export interface HttpExceptionHelper {
   parseError(errorMessage: string): { statusCode: number, errorMessage: string };
 }

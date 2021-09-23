@@ -47,4 +47,9 @@ export class CreditCardRepository extends RepositoryDAO<ICreditCard> implements 
       .where("id = :cardId", { cardId })
       .execute();
   }
+
+
+  // async charge(cardId: number, amount: number): Promise<UpdateResult> {
+
+  // }
 }

@@ -8,6 +8,7 @@ export interface ICreditCard {
   expYear: number,
   expMonth: number,
   monthLimit: number,
+  limitRestoredAt: Date,
   owner: IUser,
   createdAt?: Date,
   updatedAt?: Date,

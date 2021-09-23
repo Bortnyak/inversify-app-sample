@@ -16,6 +16,7 @@ import {
 } from "swagger-express-ts";
 import { IUser } from "../interfaces/IUser";
 import { UpdateCreditCardPayload } from "../dto/UpdateCreditCardPayload";
+import { ICreatePayment } from "../interfaces/ICreatePayment";
 
 
 @ApiPath({
@@ -137,6 +138,18 @@ export class CardsController extends BaseHttpController {
   ) {
     const user = this.httpContext.user.details as IUser;
     await this.creditCardService.deleteCard(id, user);
+    return res.status(200).json({ success: true });
+  }
+
+  
+  @httpPost("/:id/payment", TYPES.IAuthMiddleware)
+  public async chargeOwnCard(
+    @requestParam("id") id: number,
+    @requestBody() paymentPayload: ICreatePayment,
+    @response() res: Response,
+  ) {
+    const user = this.httpContext.user.details as IUser;
+    await this.creditCardService.makePayment(id, user.id, paymentPayload.amount);
     return res.status(200).json({ success: true });
   }
 }

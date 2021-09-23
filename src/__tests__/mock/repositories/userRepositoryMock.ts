@@ -32,8 +32,8 @@ export class UserRepositoryMock implements IUserRepository {
   }
 
 
-  findByEmailWithPassword(email: string): Promise<IUser> {
-    throw new Error("Method not implemented.");
+  async findByEmailWithPassword(email: string): Promise<IUser> {
+    return mockDB.users.find(user => user.email == email);
   }
   
 

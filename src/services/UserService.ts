@@ -8,7 +8,7 @@ import { IUser } from "../interfaces/IUser";
 import { IUserRepository } from "../interfaces/IUserRepository";
 import { IUserService } from "../interfaces/IUserService";
 import { HttpException } from "../utils/HTTPExceptionHelper";
-import { ILoggerService } from "./LoggerService";
+import { ILoggerService } from "../infrastructure/Logger/LoggerService";
 import { dumpUser } from "../mappers/UserMappers";
 import { IGetUserMapper } from "../interfaces/IGetUserMapper";
 
@@ -37,7 +37,7 @@ export class UserService implements IUserService {
   }
 
   
-  async verifyPassword(password: string, hash: string):Promise<boolean> {
+  async verifyPassword(password: string, hash: string): Promise<boolean> {
     return new Promise((resolve, reject) => {
       const [salt, key] = hash.split(":")
       scrypt(password, salt, 64, (err, derivedKey) => {

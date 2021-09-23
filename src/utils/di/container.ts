@@ -2,7 +2,7 @@ import { Container } from "inversify";
 import TYPES from "./identifiers";
 
 import { CatchValidationError } from "../../middlewares/CatchValidationError";
-import { ILoggerService, LoggerService } from "../../services/LoggerService";
+import { ILoggerService, LoggerService } from "../../infrastructure/Logger/LoggerService";
 import { IAuthMiddleware, AuthMiddleware } from "../../middlewares/AuthMiddleware";
 
 import { IAuthService } from "../../interfaces/IAuthService"; 

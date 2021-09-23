@@ -28,12 +28,14 @@ export class CreditCard implements ICreditCard {
   @Column({ name: "month_limit" })
   monthLimit: number;
 
+  @Column({ name: "limit_restored_at" })
+  limitRestoredAt: Date;
+
 
   @ManyToOne((type) => User)
   @JoinColumn({ name: "owner_id" })
   owner: IUser;
 
-  
 
   @CreateDateColumn({
     name: "created_at",

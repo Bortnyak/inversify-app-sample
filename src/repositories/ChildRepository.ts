@@ -2,6 +2,7 @@ import { DeleteResult, UpdateResult } from "typeorm";
 import { IChild } from "../interfaces/IChild";
 import { IChildRepository } from "../interfaces/IChildRepository";
 import { ICreateChild } from "../interfaces/ICreateChild";
+import { ICreditCard } from "../interfaces/ICreditCard";
 import { IUpdateChild } from "../interfaces/IUpdateChild";
 import { Child } from "../models/Child";
 import { RepositoryDAO } from "./Repository";
@@ -51,4 +52,16 @@ export class ChildRepository extends RepositoryDAO<IChild> implements IChildRepo
     .where("id = :id", { id })
     .execute();
   }
+
+
+  async updateCard(childId: number, card: ICreditCard): Promise<UpdateResult> {
+    const repo = await this._getRepository(Child);
+    return repo.createQueryBuilder()
+      .update(Child)
+      .set({ creditCard: card })
+      .where("id = :childId", { childId })
+      .execute();
+  }
+
+  
 }

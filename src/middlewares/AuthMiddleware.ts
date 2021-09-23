@@ -6,7 +6,7 @@ import { ParsedQs } from "qs";
 import { IAuthService } from "../interfaces/IAuthService";
 import { IUser } from "../interfaces/IUser";
 import { IUserService } from "../interfaces/IUserService";
-import { ILoggerService } from "../services/LoggerService";
+import { ILoggerService } from "../infrastructure/Logger/LoggerService";
 import { Principal } from "../services/PrincipalService";
 import TYPES from "../utils/di/identifiers";
 import { JWTHelper } from "../utils/JwtHelper";
@@ -48,8 +48,9 @@ export class AuthMiddleware extends BaseMiddleware {
       this.loggerService.logError(error, e);
       return res.status(401).json({ success: false, error });
     }
-    
+    console.log("userData: ", userData);
     const user: IUser = await this.userService.find(userData["id"]);
+    console.log("user: ", user);
     if (!user) {
       const error = "User doesn't exists";
       this.loggerService.logError(error);

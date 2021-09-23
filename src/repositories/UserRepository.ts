@@ -45,8 +45,8 @@ export class UserRepository extends RepositoryDAO<IUser> implements IUserReposit
     const repo = await this._getRepository(User);
     return repo.createQueryBuilder("user")
       .where("user.id = :id", { id })
-      .innerJoinAndSelect("user.children", "children")
-      .innerJoinAndSelect("children.child", "child")
+      .leftJoinAndSelect("user.children", "children")
+      .leftJoinAndSelect("children.child", "child")
       .getOne()
   }
 

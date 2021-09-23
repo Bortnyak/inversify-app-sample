@@ -1,4 +1,4 @@
-import { LoggerService } from "../services/LoggerService"
+import { LoggerService } from "../infrastructure/Logger/LoggerService"
 
 const loggerService = new LoggerService();
 

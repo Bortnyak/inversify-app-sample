@@ -9,7 +9,7 @@ import { IUpdateCreditCard } from "../interfaces/IUpdateCreditCard";
 import { IUser } from "../interfaces/IUser";
 import TYPES from "../utils/di/identifiers";
 import { HttpException } from "../utils/HTTPExceptionHelper";
-import { ILoggerService } from "./LoggerService";
+import { ILoggerService } from "../infrastructure/Logger/LoggerService";
 
 
 @injectable()
@@ -52,4 +52,34 @@ export class CreditCardService implements ICreditCardService {
     return;
   }
 
+
+  async findByIdAndOwner(id: number, ownerId: number): Promise<ICreditCard> {
+    return await this.creditCardRepo.findByIdAndOwner(id, ownerId);
+  }
+
+
+  async makePayment(id: number, ownerId: number, amount: number): Promise<void> {
+    const card: ICreditCard = await this.creditCardRepo.findByIdAndOwner(id, ownerId);
+    if (!card) {
+      const errorMessage = "Card not found";
+      this.loggerService.logError(errorMessage);
+      throw new HttpException(404, errorMessage);
+    }
+
+    await this.withdraw(card, amount);
+    return;
+  }
+
+
+  private async withdraw(card: ICreditCard, amount: number): Promise<void> {
+    const cardMonthLimit = Number(card.monthLimit);
+    if (amount > cardMonthLimit) {
+      const errorMessage = "Month limit exceeded";
+      this.loggerService.logError(errorMessage);
+      throw new HttpException(402, errorMessage);
+    }
+    const newMonthLimit = cardMonthLimit - amount;
+
+    await this.creditCardRepo.updateMonthLimit(card.id, newMonthLimit);
+  }
 }

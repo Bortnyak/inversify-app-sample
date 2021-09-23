@@ -1,7 +1,7 @@
 import { Response } from "express";
 import { inject } from "inversify";
 import { BaseHttpController, controller, httpDelete, httpGet, httpPatch, httpPost, httpPut, requestBody, requestParam, response } from "inversify-express-utils";
-import { ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from "swagger-express-ts";
+import { ApiOperationDelete, ApiOperationGet, ApiOperationPost, ApiOperationPut, ApiPath, SwaggerDefinitionConstant } from "swagger-express-ts";
 import { CreateChildPayload } from "../dto/CreateChildPayload";
 import { IChild } from "../interfaces/IChild";
 import { IChildService } from "../interfaces/IChildService";
@@ -9,9 +9,12 @@ import { ICreateChild } from "../interfaces/ICreateChild";
 import { IGetChild } from "../interfaces/IGetChild";
 import { IUpdateChild } from "../interfaces/IUpdateChild";
 import { IUser } from "../interfaces/IUser";
-import { IUserChild } from "../interfaces/IUserChild";
 import { IUserService } from "../interfaces/IUserService";
 import TYPES from "../utils/di/identifiers";
+import { ChildListResponse } from "../dto/ChildListResponse";
+import { UpdateChildPayload } from "../dto/UpdateChildPayload";
+
+export { ChildListResponse, CreateChildPayload, UpdateChildPayload }
 
 
 @ApiPath({
@@ -65,14 +68,21 @@ export class ChildrenController extends BaseHttpController {
   @ApiOperationPut({
     summary: "Update child by id",
     description: "Update child by id",
-    path: "/",
+    path: "/{id}",
     parameters: {
+      path: {
+        id: {
+          description: "Child id",
+          type: SwaggerDefinitionConstant.Parameter.Type.INTEGER,
+          required: true
+        },
+      },
       body: {
         type: SwaggerDefinitionConstant.Parameter.Type.OBJECT,
-        model: "CreateChildPayload",
+        model: "UpdateChildPayload",
         required: true,
         allowEmptyValue: false,
-        description: "CreateChildPayload object"
+        description: "UpdateChildPayload object"
       },
     },
     responses: {
@@ -85,7 +95,7 @@ export class ChildrenController extends BaseHttpController {
       500: { description: "Internal server error" }
     }
   })
-  @httpPut("/:id", TYPES.IAuthMiddleware)
+  @httpPut("/:id", ...UpdateChildPayload.validate(), TYPES.IAuthMiddleware)
   public async updateChild(
     @requestParam("id") id: number, 
     @requestBody() payload: IUpdateChild, 
@@ -97,6 +107,25 @@ export class ChildrenController extends BaseHttpController {
   }
 
 
+  @ApiOperationDelete({
+    summary: "Delete a child object",
+    description: "Delete the child object by id",
+    path: "/{id}",
+    parameters: {
+      path: {
+        id: {
+          description: "Child id",
+          type: SwaggerDefinitionConstant.Parameter.Type.INTEGER,
+          required: true
+        },
+      },
+    },
+    responses: {
+      200: { description: "Success" },
+      401: { description: "Unathorized" },
+      500: { description: "Internal server error" }
+    }
+  })
   @httpDelete("/:id", TYPES.IAuthMiddleware)
   public async deleteChild(
     @requestParam("id") id: number,
@@ -109,11 +138,66 @@ export class ChildrenController extends BaseHttpController {
 
   // Here could be also an endpoint for getting child by id
 
+  @ApiOperationGet({
+    description: "Get the list of all children for authorized user",
+    summary: "Get the list of all children",
+    path: "/list",
+    responses: {
+      200: { 
+        description: "The response represents an array of child objects. If there are no children - empty array returns", 
+        type: SwaggerDefinitionConstant.Response.Type.OBJECT,
+        model: "ChildListResponse" 
+      },
+      401: { description: "Unathorized" },
+      404: { description: "Session state with given sessionId not found" },
+      500: { description: "Internal server error" }
+    }
+  })
   @httpGet("/list", TYPES.IAuthMiddleware)
   public async getChildren(@response() res: Response) {
     const user = this.httpContext.user.details as IUser;
     const children: IGetChild[] = await this.childService.findAllByParentId(user.id);
     return res.status(200).json({ success: true, children });
+  }
+
+
+  @ApiOperationPut({
+    summary: "Set child's card or replace old one",
+    description: "Set child's card",
+    path: "/{id}/cards/{cardId}",
+    parameters: {
+      path: {
+        id: {
+          description: "Child id",
+          type: SwaggerDefinitionConstant.Parameter.Type.INTEGER,
+          required: true
+        },
+        cardId: {
+          description: "Card id",
+          type: SwaggerDefinitionConstant.Parameter.Type.INTEGER,
+          required: true
+        },
+      },
+    },
+    responses: {
+      200: { 
+        description: "Success",
+        type: SwaggerDefinitionConstant.OBJECT,
+      },
+      401: { description: "Unathorized" },
+      404: { description: "Child or card doesn't exist" },
+      500: { description: "Internal server error" },
+    }
+  })
+  @httpPut("/:id/cards/:cardId", TYPES.IAuthMiddleware)
+  public async attachCardToChild(
+    @requestParam("id") childId: number,
+    @requestParam("cardId") cardId: number,
+    @response() res: Response,
+  ) {
+    const user = this.httpContext.user.details as IUser;
+    await this.childService.addCard(user.id, cardId, childId);
+    return res.status(200).json({ success: true });
   }
 
 }

@@ -11,7 +11,8 @@ import { IUserChildService } from "../interfaces/IUserChildService";
 import { dumpUsersChildren } from "../mappers/UserChildrenMapper";
 import TYPES from "../utils/di/identifiers";
 import { HttpException } from "../utils/HTTPExceptionHelper";
-import { ILoggerService } from "./LoggerService";
+import { ILoggerService } from "../infrastructure/Logger/LoggerService";
+import { ICreditCardService } from "../interfaces/ICreditCardService";
 
 
 @injectable()
@@ -20,6 +21,7 @@ export class ChildService implements IChildService {
     @inject(TYPES.ILoggerService) private loggerService: ILoggerService,
     @inject(TYPES.IChildRepository) private childRepo: IChildRepository,
     @inject(TYPES.IUserChildService) private userChildService: IUserChildService,
+    @inject(TYPES.ICreditCardService) private creditCardService: ICreditCardService,
 
   ) { this.loggerService.setContext(this)}
 
@@ -74,8 +76,23 @@ export class ChildService implements IChildService {
   }
 
 
-  addCard(cardId: number, childId: number): Promise<void> {
-    throw new Error("Method not implemented.");
+  async addCard(userId:number, cardId: number, childId: number): Promise<void> {
+    const creditCard = await this.creditCardService.findByIdAndOwner(cardId, userId);
+    if (!creditCard) {
+      const errorMessage = "Credit card doesn't exist";
+      this.loggerService.logError(errorMessage);
+      throw new HttpException(404, errorMessage);
+    }
+
+    const child = await this.childRepo.findById(childId);
+    if (!child) {
+      const errorMessage = "Child doesn't exist";
+      this.loggerService.logError(errorMessage);
+      throw new HttpException(404, errorMessage);
+    }
+
+    await this.childRepo.updateCard(childId, creditCard);
+    return;
   }
 
   

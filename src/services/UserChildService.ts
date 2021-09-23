@@ -1,11 +1,12 @@
 import { injectable, inject } from "inversify";
+import { ILoggerService } from "../infrastructure/Logger/LoggerService";
 import { IChild } from "../interfaces/IChild";
 import { IUser } from "../interfaces/IUser";
 import { IUserChild } from "../interfaces/IUserChild";
 import { IUserChildRepository } from "../interfaces/IUserChildRepository";
 import { IUserChildService } from "../interfaces/IUserChildService";
 import TYPES from "../utils/di/identifiers";
-import { ILoggerService } from "./LoggerService";
+
 
 @injectable()
 export class UserChildService implements IUserChildService {

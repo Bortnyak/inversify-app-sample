@@ -9,7 +9,7 @@ import TYPES from "../utils/di/identifiers";
 import { HttpException } from "../utils/HTTPExceptionHelper";
 import { sign, verify,JwtPayload } from "jsonwebtoken";
 import config from "../config";
-import { ILoggerService } from "./LoggerService";
+import { ILoggerService } from "../infrastructure/Logger/LoggerService";
 
 
 @injectable()
@@ -38,10 +38,7 @@ export class AuthService implements IAuthService {
       throw new HttpException(404, errorMessage);
     }
 
-    console.log("user: ", user);
-
     const isPasswordMatch = await this.userService.verifyPassword(payload.password, user.password);
-    console.log("isPasswordMatch: ", isPasswordMatch);
     if (!isPasswordMatch) {
       const errorMessage = "Wrong password";
       this.loggerService.logError(errorMessage);
