@@ -48,9 +48,8 @@ export class AuthMiddleware extends BaseMiddleware {
       this.loggerService.logError(error, e);
       return res.status(401).json({ success: false, error });
     }
-    console.log("userData: ", userData);
+    
     const user: IUser = await this.userService.find(userData["id"]);
-    console.log("user: ", user);
     if (!user) {
       const error = "User doesn't exists";
       this.loggerService.logError(error);

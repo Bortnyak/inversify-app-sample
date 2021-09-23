@@ -1,6 +1,5 @@
 import { injectable, inject } from "inversify";
 import { ILoggerService } from "../infrastructure/Logger/LoggerService";
-
 import { ICreatePaymentTransaction } from "../interfaces/ICreatePaymentTransaction";
 import { IPaymentTransaction } from "../interfaces/IPaymentTransaction";
 import { IPaymentTransactionRepository } from "../interfaces/IPaymentTransactionRepository";

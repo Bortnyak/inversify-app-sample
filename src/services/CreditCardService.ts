@@ -2,7 +2,6 @@ import { injectable, inject } from "inversify";
 import { ICreateCreditCard } from "../interfaces/ICreateCreditCard";
 import { ICreditCard } from "../interfaces/ICreditCard";
 import { ICreditCardRepository } from "../interfaces/ICreditCardRepository";
-
 import { ICreditCardService } from "../interfaces/ICreditCardService";
 import { ICreditCardToSave } from "../interfaces/ICreditCardToSave";
 import { IUpdateCreditCard } from "../interfaces/IUpdateCreditCard";
@@ -11,7 +10,6 @@ import TYPES from "../utils/di/identifiers";
 import { HttpException } from "../utils/HTTPExceptionHelper";
 import { ILoggerService } from "../infrastructure/Logger/LoggerService";
 import { IPaymentTransactionService } from "../interfaces/IPaymentTransactionService";
-import { IPaymentTransaction } from "../interfaces/IPaymentTransaction";
 import { ICreatePaymentTransaction } from "../interfaces/ICreatePaymentTransaction";
 import { TransactionStatus } from "../interfaces/IPaymentTransaction";
 

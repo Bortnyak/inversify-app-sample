@@ -1,9 +1,7 @@
 import { inject, injectable } from "inversify";
 import { IAuthService } from "../interfaces/IAuthService";
-import { ICreateUser } from "../interfaces/ICreateUser";
 import { ILogin } from "../interfaces/ILogin";
 import { IUser } from "../interfaces/IUser";
-import { IUserRepository } from "../interfaces/IUserRepository";
 import { IUserService } from "../interfaces/IUserService";
 import TYPES from "../utils/di/identifiers";
 import { HttpException } from "../utils/HTTPExceptionHelper";

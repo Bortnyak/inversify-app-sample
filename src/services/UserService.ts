@@ -1,8 +1,6 @@
 import { injectable, inject } from "inversify";
 import { randomBytes, scrypt } from "crypto";
-
 import TYPES from "../utils/di/identifiers";
-
 import { ICreateUser } from "../interfaces/ICreateUser";
 import { IUser } from "../interfaces/IUser";
 import { IUserRepository } from "../interfaces/IUserRepository";

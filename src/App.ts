@@ -23,8 +23,6 @@ let server = new InversifyExpressServer(
 );
 
 
-console.log("config.apiRootPath: ", config.apiRootPath);
-
 server.setErrorConfig((app) => {
   app.use((
     err: HttpException | Error,

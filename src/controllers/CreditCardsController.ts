@@ -1,4 +1,4 @@
-import { BaseHttpController, controller, httpDelete, httpGet, httpPatch, httpPost, httpPut, requestBody, requestParam, response } from "inversify-express-utils";
+import { BaseHttpController, controller, httpDelete, httpPatch, httpPost, requestBody, requestParam, response } from "inversify-express-utils";
 import { Response } from "express";
 import { inject } from "inversify";
 import TYPES from "../utils/di/identifiers";

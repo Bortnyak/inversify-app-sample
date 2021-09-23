@@ -1,9 +1,7 @@
 import { Response } from "express";
 import { inject } from "inversify";
-import { BaseHttpController, controller, httpGet, httpPost, requestBody, response } from "inversify-express-utils";
+import { BaseHttpController, controller, httpGet, response } from "inversify-express-utils";
 import { ApiOperationGet, ApiPath, SwaggerDefinitionConstant } from "swagger-express-ts";
-import { ICreateUser } from "../interfaces/ICreateUser";
-import { IGetUserMapper } from "../interfaces/IGetUserMapper";
 import { IUserService } from "../interfaces/IUserService";
 import { dumpUser } from "../mappers/UserMappers";
 import TYPES from "../utils/di/identifiers";

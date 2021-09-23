@@ -1,5 +1,32 @@
 version : '3'
 services:
+  api:
+    depends_on:
+      - mysql
+    image: api:1.0
+    container_name: api
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      API_ROOT_PATH: /api/
+      JWT_SECRET_KEY: testSecret
+      JWT_EXPIRE_TIME: 3600 #one hour
+      CORS: "*" #only for dev mode
+      TYPEORM_CONNECTION: mysql
+      TYPEORM_HOST: 172.23.0.1 #db container gateway ip or network alias could be use - wallet-db.local
+      TYPEORM_USERNAME: root
+      TYPEORM_PASSWORD: 123
+      TYPEORM_DATABASE: wallet
+      TYPEORM_LOGGING: "true"
+      TYPEORM_PORT: 3308
+      TYPEORM_ENTITIES: ./dist/models/*.js
+    networks: 
+      app-network:
+        aliases:
+          - api.local
   mysql:
     image: mysql
     container_name: wallet-db
@@ -9,10 +36,15 @@ services:
       MYSQL_ROOT_HOST: "%"
       MYSQL_DATABASE: wallet
       MYSQL_ROOT_PASSWORD: 123
-      # MYSQL_USER: admin
-      # MYSQL_PASSWORD: admin
     ports:
       - "3308:3306"
-    # volumes:
-      # - "./scripts/schema.sql:/docker-entrypoint-initdb.d/1.sql"
+    networks:
+      app-network:
+        aliases:
+          - wallet-db.local
+        
+    volumes:
+      - "./src/infrastructure/db/wallet-db-dump.sql:/docker-entrypoint-initdb.d/1.sql"
       # - "./scripts/data.sql:/docker-entrypoint-initdb.d/2.sql"
+networks:
+  app-network:
