@@ -34,6 +34,7 @@ export class UserChildRepository extends RepositoryDAO<IUserChild> implements IU
     throw new Error("Method not implemented.");
   }
   
+  @CatchError("Failed to find relations by parent and user")
   async findRelationByIds(userId: number, childId: number): Promise<IUserChild> {
     const repo = await this._getRepository(UserChild);
     return repo.createQueryBuilder("userChild")

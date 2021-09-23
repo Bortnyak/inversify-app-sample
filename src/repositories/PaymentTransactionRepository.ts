@@ -2,7 +2,6 @@ import { ICreatePaymentTransaction } from "../interfaces/ICreatePaymentTransacti
 import { IPaymentTransaction } from "../interfaces/IPaymentTransaction";
 import { IPaymentTransactionRepository } from "../interfaces/IPaymentTransactionRepository";
 import { PaymentTransaction } from "../models/PaymentTransaction";
-// import { ICardTransactionRepository } from "../interfaces/IPaymentTransactionRepository";
 import { RepositoryDAO } from "./Repository";
 
 export class PaymentTransactionRepository extends RepositoryDAO<IPaymentTransaction> implements IPaymentTransactionRepository {

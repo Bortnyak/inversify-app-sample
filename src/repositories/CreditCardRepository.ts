@@ -4,17 +4,20 @@ import { ICreditCard } from "../interfaces/ICreditCard";
 import { ICreditCardRepository } from "../interfaces/ICreditCardRepository";
 import { ICreditCardToSave } from "../interfaces/ICreditCardToSave";
 import { CreditCard } from "../models/CreditCard";
+import { CatchError } from "../utils/CatchWrapper";
 import { RepositoryDAO } from "./Repository";
 
 
 export class CreditCardRepository extends RepositoryDAO<ICreditCard> implements ICreditCardRepository {
   
+  @CatchError("Failed to create card by name")
   async createCreditCard(card: ICreditCardToSave): Promise<ICreditCard> {
     const repo = await this._getRepository(CreditCard);
     return repo.save(card);
   }
 
 
+  @CatchError("Failed to find card by id and user")
   async findByIdAndOwner(cardId: number, owner: number): Promise<ICreditCard> {
     const repo = await this._getRepository(CreditCard);
     return repo.createQueryBuilder("creditCard")
@@ -29,6 +32,7 @@ export class CreditCardRepository extends RepositoryDAO<ICreditCard> implements 
   }
 
 
+  @CatchError("Failed to update month limit")
   async updateMonthLimit(cardId: number, monthLimit: number): Promise<UpdateResult> {
     const repo = await this._getRepository(CreditCard);
     return repo.createQueryBuilder()
@@ -38,7 +42,8 @@ export class CreditCardRepository extends RepositoryDAO<ICreditCard> implements 
       .execute();
   }
   
-  
+
+  @CatchError("Failed to delete card")
   async deleteCreditCard(cardId: number): Promise<DeleteResult> {
     const repo = await this._getRepository(CreditCard);
     return repo.createQueryBuilder("child")
@@ -48,8 +53,5 @@ export class CreditCardRepository extends RepositoryDAO<ICreditCard> implements 
       .execute();
   }
 
-
-  // async charge(cardId: number, amount: number): Promise<UpdateResult> {
-
-  // }
+  
 }
